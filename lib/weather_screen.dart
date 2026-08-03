@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:weather_app/addition_info_item.dart';
+import 'package:weather_app/hourly_weather_forecast.dart';
 
 class WeatherScreen extends StatelessWidget {
   const WeatherScreen({super.key});
@@ -45,7 +47,7 @@ class WeatherScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '300°F',
+                            '300K',
                             style: TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
@@ -62,57 +64,72 @@ class WeatherScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             // Weather forecast
-            Text(
+            const Text(
               'Weather Forecast',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            SingleChildScrollView(
+            const SizedBox(height: 8),
+            const SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  HourlyForeCastItem(),
-                  HourlyForeCastItem(),
-                  HourlyForeCastItem(),
-                  HourlyForeCastItem(),
-                  HourlyForeCastItem(),
+                  HourlyForeCastItem(
+                    time: '09:00',
+                    icon: Icons.cloud,
+                    temp: '301.17',
+                  ),
+                  HourlyForeCastItem(
+                    time: '12:00',
+                    icon: Icons.sunny,
+                    temp: '301.54',
+                  ),
+                  HourlyForeCastItem(
+                    time: '15:00',
+                    icon: Icons.cloud,
+                    temp: '301.11',
+                  ),
+                  HourlyForeCastItem(
+                    time: '18:00',
+                    icon: Icons.sunny,
+                    temp: '300.79',
+                  ),
+                  HourlyForeCastItem(
+                    time: '21:00',
+                    icon: Icons.cloud,
+                    temp: '300.45',
+                  ),
                 ],
               ),
             ),
             // const Placeholder(fallbackHeight: 100),
-            const SizedBox(height: 20),
-            //Additional infomation
-            const Placeholder(fallbackHeight: 100),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class HourlyForeCastItem extends StatelessWidget {
-  const HourlyForeCastItem({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 10,
-      child: Container(
-        width: 100,
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-        child: const Column(
-          children: [
-            Text(
-              '10:45',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            const SizedBox(height: 12),
+            const Text(
+              'Additional Infomation',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            Icon(Icons.cloud, size: 32),
-            SizedBox(height: 8),
-            Text('301.17'),
+            const SizedBox(height: 8),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                AdditionalInfoItem(
+                  icon: Icons.water_drop,
+                  lable: 'Humidity',
+                  value: '94',
+                ),
+                AdditionalInfoItem(
+                  icon: Icons.air,
+                  lable: 'Wind Speed',
+                  value: '7.67',
+                ),
+                AdditionalInfoItem(
+                  icon: Icons.speed,
+                  lable: 'Pressure',
+                  value: '1006',
+                ),
+              ],
+            ),
           ],
         ),
       ),
