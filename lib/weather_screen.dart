@@ -17,7 +17,7 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen> {
   Future<Map<String, dynamic>> getCurrentWeather() async {
     try {
-      String cityName = 'Kenya';
+      String cityName = 'Nairobi';
       final res = await http.get(
         Uri.parse(
           'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openWeatherAPIKey',
@@ -68,6 +68,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
           final currentPressure = currentWeatherData['main']['pressure'];
           final humidity = currentWeatherData['main']['humidity'];
           final windSpeed = currentWeatherData['wind']['speed'];
+
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -122,35 +123,22 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-                const SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      HourlyForeCastItem(
-                        time: '09:00',
-                        icon: Icons.cloud,
-                        temp: '301.17',
-                      ),
-                      HourlyForeCastItem(
-                        time: '12:00',
-                        icon: Icons.sunny,
-                        temp: '301.54',
-                      ),
-                      HourlyForeCastItem(
-                        time: '15:00',
-                        icon: Icons.cloud,
-                        temp: '301.11',
-                      ),
-                      HourlyForeCastItem(
-                        time: '18:00',
-                        icon: Icons.sunny,
-                        temp: '300.79',
-                      ),
-                      HourlyForeCastItem(
-                        time: '21:00',
-                        icon: Icons.cloud,
-                        temp: '300.45',
-                      ),
+                      for (int i = 1; i < 6; i++)
+                        HourlyForeCastItem(
+                          time: data['list'][i]['dt'].toString(),
+                          icon:
+                              data['list'][i]['weather'][0]['main'] ==
+                                      'Clouds' ||
+                                  data['list'][i]['weather'][0]['main'] ==
+                                      'Rain'
+                              ? Icons.cloud
+                              : Icons.sunny,
+                          temp: data['list'][i]['main']['temp'].toString(),
+                        ),
                     ],
                   ),
                 ),
