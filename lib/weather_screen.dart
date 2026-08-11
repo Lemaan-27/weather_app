@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/addition_info_item.dart';
 import 'package:weather_app/hourly_weather_forecast.dart';
 import 'package:http/http.dart' as http;
@@ -123,26 +124,48 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (int i = 1; i < 6; i++)
-                        HourlyForeCastItem(
-                          time: data['list'][i]['dt'].toString(),
-                          icon:
-                              data['list'][i]['weather'][0]['main'] ==
-                                      'Clouds' ||
-                                  data['list'][i]['weather'][0]['main'] ==
-                                      'Rain'
-                              ? Icons.cloud
-                              : Icons.sunny,
-                          temp: data['list'][i]['main']['temp'].toString(),
-                        ),
-                    ],
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(
+                //     children: [
+                //       for (int i = 1; i < 40; i++)
+                //         HourlyForeCastItem(
+                //           time: data['list'][i]['dt'].toString(),
+                //           icon:
+                //               data['list'][i]['weather'][0]['main'] ==
+                //                       'Clouds' ||
+                //                   data['list'][i]['weather'][0]['main'] ==
+                //                       'Rain'
+                //               ? Icons.cloud
+                //               : Icons.sunny,
+                //           temp: data['list'][i]['main']['temp'].toString(),
+                //         ),
+                //     ],
+                //   ),
+                // ),
+                // const Placeholder(fallbackHeight: 100),
+                SizedBox(
+                  height: 120,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 40,
+                    itemBuilder: (context, index) {
+                      final hourlyForeCast = data['list'][index];
+                      final hourlySky =
+                          data['list'][index]['weather'][0]['main'];
+                      final hourTemp = hourlyForeCast['main']['temp']
+                          .toString();
+                      final time = DateTime.parse(hourlyForeCast['dt_txt']);
+                      return HourlyForeCastItem(
+                        icon: hourlySky == 'Clouds' || hourlySky == 'Rain'
+                            ? Icons.cloud
+                            : Icons.sunny,
+                        temp: hourTemp,
+                        time: DateFormat.j().format(time),
+                      );
+                    },
                   ),
                 ),
-                // const Placeholder(fallbackHeight: 100),
                 const SizedBox(height: 12),
                 const Text(
                   'Additional Infomation',
